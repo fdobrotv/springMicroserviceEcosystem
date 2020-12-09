@@ -1,0 +1,170 @@
+version: '3.7'
+
+networks:
+  backend:
+    name: backend
+    driver: bridge
+
+x-discovery-app-name: &DISCOVERY_APP_NAME
+  fdobrotv/discovery_service:0.4.0
+
+x-config-app-name: &CONFIG_APP_NAME
+  fdobrotv/configuration_service:0.3.1
+
+x-gateway-app-name: &GATEWAY_APP_NAME
+  fdobrotv/gateway_service:0.4.5
+
+x-client-app-name: &CLIENT_APP_NAME
+  fdobrotv/client_service:0.3.6
+
+x-eureka-zone: &EUREKA_ZONE
+  http://discovery-service-1.com:8761/eureka/,http://discovery-service-2.com:8762/eureka/,http://discovery-service-3.com:8763/eureka/
+
+services:
+  tracing-service-1.com:
+    image: jaegertracing/all-in-one:1.6
+    hostname: 'tracing-service-1.com'
+    environment:
+      COLLECTOR_ZIPKIN_HTTP_PORT: 9411
+    networks:
+      - backend
+    ports:
+      - "9411:9411"
+      - "16686:16686"
+
+  discovery-service-1.com:
+    image: *DISCOVERY_APP_NAME
+    hostname: 'discovery-service-1.com'
+    environment:
+      SPRING_PROFILES_ACTIVE: peerN
+      APPLICATION_NAME: discovery-service
+      SERVER_PORT: 8761
+      HOST_NAME: discovery-service-1.com
+      EUREKA_DEFAULT_ZONE: http://discovery-service-2.com:8762/eureka/,http://discovery-service-3.com:8763/eureka/
+    networks:
+      - backend
+    ports:
+      - "8761:8761"
+
+  discovery-service-2.com:
+    image: *DISCOVERY_APP_NAME
+    hostname: 'discovery-service-2.com'
+    depends_on:
+      - discovery-service-1.com
+    environment:
+      SPRING_PROFILES_ACTIVE: peerN
+      APPLICATION_NAME: discovery-service
+      SERVER_PORT: 8762
+      HOST_NAME: discovery-service-2.com
+      EUREKA_DEFAULT_ZONE: http://discovery-service-1.com:8761/eureka/,http://discovery-service-3.com:8763/eureka/
+    networks:
+      - backend
+    ports:
+      - "8762:8762"
+
+  discovery-service-3.com:
+    image: *DISCOVERY_APP_NAME
+    hostname: 'discovery-service-3.com'
+    depends_on:
+      - discovery-service-1.com
+    environment:
+      SPRING_PROFILES_ACTIVE: peerN
+      APPLICATION_NAME: discovery-service
+      SERVER_PORT: 8763
+      HOST_NAME: discovery-service-3.com
+      EUREKA_DEFAULT_ZONE: http://discovery-service-1.com:8761/eureka/,http://discovery-service-2.com:8762/eureka/
+    networks:
+      - backend
+    ports:
+      - "8763:8763"
+
+  configuration-service-1.com:
+    image: *CONFIG_APP_NAME
+    hostname: 'configuration-service-1.com'
+    depends_on:
+      - discovery-service-1.com
+    environment:
+      APPLICATION_NAME: configuration-service
+      SERVER_PORT: 8888
+      HOST_NAME: configuration-service-1.com
+      EUREKA_DEFAULT_ZONE: *EUREKA_ZONE
+      CONFIGURATION_SOURCE_GIT: https://github.com/fdobrotv/cloud_config.git
+    networks:
+      - backend
+    ports:
+      - "8888:8888"
+
+  gateway-service-1.com:
+    image: *GATEWAY_APP_NAME
+    hostname: 'gateway-service-1.com'
+    depends_on:
+      - discovery-service-1.com
+      - configuration-service-1.com
+      - tracing-service-1.com
+    environment:
+      APPLICATION_NAME: gateway-service
+      SERVER_PORT: 8080
+      HOST_NAME: gateway-service-1.com
+      EUREKA_DEFAULT_ZONE: *EUREKA_ZONE
+      CONFIGURATION_SERVICE_ID: configuration-service
+    networks:
+      - backend
+    ports:
+      - "8080:8080"
+
+  client-service-1.com:
+    image: *CLIENT_APP_NAME
+    hostname: 'client-service-1.com'
+    depends_on:
+      - configuration-service-1.com
+      - gateway-service-1.com
+      - discovery-service-1.com
+      - tracing-service-1.com
+    environment:
+      APPLICATION_NAME: client-service
+      SERVER_PORT: 7777
+      HOST_NAME: client-service-1.com
+      EUREKA_DEFAULT_ZONE: *EUREKA_ZONE
+      CONFIGURATION_SERVICE_ID: configuration-service
+    networks:
+      - backend
+    ports:
+      - "7777:7777"
+
+  client-service-2.com:
+    image: *CLIENT_APP_NAME
+    hostname: 'client-service-2.com'
+    depends_on:
+      - configuration-service-1.com
+      - gateway-service-1.com
+      - discovery-service-1.com
+      - tracing-service-1.com
+    environment:
+      APPLICATION_NAME: client-service
+      SERVER_PORT: 7778
+      HOST_NAME: client-service-2.com
+      EUREKA_DEFAULT_ZONE: *EUREKA_ZONE
+      CONFIGURATION_SERVICE_ID: configuration-service
+    networks:
+      - backend
+    ports:
+      - "7778:7778"
+
+  client-service-3.com:
+    image: *CLIENT_APP_NAME
+    hostname: 'client-service-3.com'
+    depends_on:
+      - configuration-service-1.com
+      - gateway-service-1.com
+      - discovery-service-1.com
+      - tracing-service-1.com
+    environment:
+      APPLICATION_NAME: client-service
+      SERVER_PORT: 7779
+      HOST_NAME: client-service-3.com
+      EUREKA_DEFAULT_ZONE: *EUREKA_ZONE
+      CONFIGURATION_SERVICE_ID: configuration-service
+    networks:
+      - backend
+    ports:
+      - "7779:7779"
