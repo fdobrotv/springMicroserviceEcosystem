@@ -22,15 +22,21 @@ x-eureka-zone: &EUREKA_ZONE
 
 services:
   tracing-service-1.com:
-    image: jaegertracing/all-in-one:1.6
+    image: jaegertracing/all-in-one
     hostname: 'tracing-service-1.com'
     environment:
       COLLECTOR_ZIPKIN_HTTP_PORT: 9411
     networks:
       - backend
     ports:
-      - "9411:9411"
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
       - "16686:16686"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
 
   discovery-service-1.com:
     image: *DISCOVERY_APP_NAME
