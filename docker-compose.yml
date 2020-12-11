@@ -12,7 +12,7 @@ x-config-app-name: &CONFIG_APP_NAME
   fdobrotv/configuration_service:0.3.1
 
 x-gateway-app-name: &GATEWAY_APP_NAME
-  fdobrotv/gateway_service:0.5.0
+  fdobrotv/gateway_service:0.5.1
 
 x-client-app-name: &CLIENT_APP_NAME
   fdobrotv/client_service:0.4.2
