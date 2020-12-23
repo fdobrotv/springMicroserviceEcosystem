@@ -24,7 +24,12 @@ cat `127.0.0.1 discovery-service.com
 127.0.0.1 client-service-2.com
 127.0.0.1 client-service-3.com
 
-127.0.0.1 tracing-service-1.com` >> /etc/hosts
+127.0.0.1 tracing-service-1.com
+
+127.0.0.1 db.com
+127.0.0.1 db-1.com
+127.0.0.1 db-2.com
+127.0.0.1 db-3.com` >> /etc/hosts
 
 ## Prepare environment to run
 `docker-compose up`

@@ -174,3 +174,16 @@ services:
       - backend
     ports:
       - "7779:7779"
+
+  db-1.com:
+    image: cockroachdb/cockroach:latest
+    container_name: db-1.com
+    hostname: 'db-1.com'
+    volumes:
+      - ./data/db-1.com:/cockroach/cockroach-data
+    command: start-single-node --insecure --http-addr=db-1.com:10000
+    ports:
+      - "26257:26257"
+      - "10000:10000"
+    networks:
+      - backend
