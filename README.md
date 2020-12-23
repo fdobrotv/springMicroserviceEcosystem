@@ -34,6 +34,9 @@ cat `127.0.0.1 discovery-service.com
 ## Prepare environment to run
 `docker-compose up`
 
+### Maybe you also need to initialize the cluster
+`docker exec -it db-1.com ./cockroach init --insecure`
+
 ### Used project links
 https://github.com/fdobrotv/springDiscoveryService
 https://github.com/fdobrotv/springConfigurationService
