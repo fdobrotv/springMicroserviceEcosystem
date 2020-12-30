@@ -19,6 +19,8 @@ x-client-app-name: &CLIENT_APP_NAME
 
 x-eureka-zone: &EUREKA_ZONE
   http://discovery-service-1.com:8761/eureka/,http://discovery-service-2.com:8762/eureka/,http://discovery-service-3.com:8763/eureka/
+x-vault-token: &VAULT_TOKEN
+  ffa6f30b-041f-445a-9beb-3b42927fab1a
 
 services:
   tracing-service-1.com:
@@ -191,7 +193,7 @@ services:
     image: vault
     hostname: 'vault-1.com'
     environment:
-      VAULT_DEV_ROOT_TOKEN_ID: ffa6f30b-041f-445a-9beb-3b42927fab1a
+      VAULT_DEV_ROOT_TOKEN_ID: *VAULT_TOKEN
     cap_add:
       - IPC_LOCK
     ports:
@@ -201,7 +203,7 @@ services:
   vault-config:
     image: vault
     environment:
-      VAULT_TOKEN: ffa6f30b-041f-445a-9beb-3b42927fab1a
+      VAULT_TOKEN: *VAULT_TOKEN
       VAULT_ADDR: http://vault-1.com:8200
     cap_add:
       - IPC_LOCK
