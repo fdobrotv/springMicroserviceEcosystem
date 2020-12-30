@@ -187,3 +187,27 @@ services:
       - "10000:10000"
     networks:
       - backend
+  vault-1.com:
+    image: vault
+    hostname: 'vault-1.com'
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: ffa6f30b-041f-445a-9beb-3b42927fab1a
+    cap_add:
+      - IPC_LOCK
+    ports:
+      - "8200:8200"
+    networks:
+      - backend
+  vault-config:
+    image: vault
+    environment:
+      VAULT_TOKEN: ffa6f30b-041f-445a-9beb-3b42927fab1a
+      VAULT_ADDR: http://vault-1.com:8200
+    cap_add:
+      - IPC_LOCK
+    depends_on:
+      - vault-1.com
+    networks:
+      - backend
+    command: >
+      vault kv put secret/client-service db.password=qwerty
