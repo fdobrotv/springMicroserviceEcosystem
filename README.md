@@ -41,8 +41,8 @@ cat `127.0.0.1 discovery-service.com
 1) install hypervisor (virtualbox or hyperkit)
 2) install minikube
 3) install kubectl
-4) `minikube config set driver virtualbox` or hyperkit
-5) `minikube start --container-runtime=cri-o` for local development better use docker instead of cri-o
+4) `minikube config set driver docker` or hyperkit or virtualbox
+5) `minikube start --container-runtime=cri-o` for local development better use docker instead of cri-o because you can do `eval $(minikube docker-env)`
 6) install helm
 
 ## Deploy all services using k8s and helm
@@ -56,7 +56,7 @@ cat `127.0.0.1 discovery-service.com
 ## Useful k8s commands
 ### push image to k8s docker registry (for local development)
 1) re-use the Docker daemon inside the Minikube instance `eval $(minikube docker-env)`
-2) build image (`gradle jibDockerBuild`)
+2) build image (`gradlew jibDockerBuild`)
 3) check `docker images`
 4) when you define k8s deployment yaml, do not forget to set `imagePullPolicy: Never`
 
