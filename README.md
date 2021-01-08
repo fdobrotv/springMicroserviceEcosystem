@@ -60,6 +60,9 @@ cat `127.0.0.1 discovery-service.com
 3) check `docker images`
 4) when you define k8s deployment yaml, do not forget to set `imagePullPolicy: Never`
 
+### get host machine ip from minikube (docker runtime)
+`minikube ssh grep host.minikube.internal /etc/hosts | cut -f1`
+
 ### ClusterIP port forwarding (from k8s cluster to local port)
 https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/
 example: `kubectl port-forward service/configuration-service 7000:8888`
