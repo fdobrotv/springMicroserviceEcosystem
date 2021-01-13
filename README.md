@@ -56,6 +56,10 @@ cat `127.0.0.1 discovery-service.com
 5) start client service: go inside client-service chart directory and run `helm install client-service .`
 6) start gateway service: go inside gateway-service chart directory and run `helm install gateway-service .`
 
+## Useful docker-compose commands
+Exclude some service from start
+`docker-compose up --scale configuration-service-1.com=0`
+
 ## Useful k8s commands
 ### push image to k8s docker registry (for local development)
 1) re-use the Docker daemon inside the Minikube instance `eval $(minikube docker-env)`

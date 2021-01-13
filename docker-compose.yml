@@ -218,6 +218,7 @@ services:
       - "10000:10000"
     networks:
       - backend
+
   vault-1.com:
     image: vault
     hostname: 'vault-1.com'
@@ -229,6 +230,7 @@ services:
       - "8200:8200"
     networks:
       - backend
+
   vault-config:
     image: vault
     environment:
