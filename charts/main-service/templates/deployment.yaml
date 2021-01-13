@@ -1,0 +1,99 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-service
+spec:
+  selector:
+    matchLabels:
+      app: client-service
+  replicas: {{ .Values.clientService.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: client-service
+    spec:
+      containers:
+        - name: client-service
+          image: {{ .Values.clientService.image.name }}
+          imagePullPolicy: {{ .Values.clientService.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.clientService.port.container }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.clientService.app.profile }}
+            - name: DB_HOST
+              value: {{ .Values.dbHost }}
+            - name: CONFIGURATION_SERVICE_HOST
+              value: {{ .Values.configurationService.app.name }}
+            - name: TRACING_SERVICE_HOST
+              value: {{ .Values.tracingServiceHost }}
+            - name: SERVER_PORT
+              value: {{ .Values.clientService.port.container | quote }} # containerPort is integer, but env expects string, so we must add quote
+            - name: APPLICATION_NAME
+              value: {{ .Values.clientService.app.name }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: configuration-service
+spec:
+  selector:
+    matchLabels:
+      app: configuration-service
+  replicas: {{ .Values.configurationService.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: configuration-service
+    spec:
+      containers:
+        - name: configuration-service
+          image: {{ .Values.configurationService.image.name }}
+          imagePullPolicy: {{ .Values.configurationService.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.configurationService.port.container }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.configurationService.app.profile }}
+            - name: TRACING_SERVICE_HOST
+              value: {{ .Values.tracingServiceHost }}
+            - name: SERVER_PORT
+              value: {{ .Values.configurationService.port.container | quote }} # containerPort is integer, but env expects string
+            - name: APPLICATION_NAME
+              value: {{ .Values.configurationService.app.name }}
+            - name: CONFIGURATION_SOURCE_GIT
+              value: {{ .Values.configurationService.app.configurationSourceGit }}
+            - name: VAULT_HOST
+              value: {{ .Values.vaultHost }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway-service
+spec:
+  selector:
+    matchLabels:
+      app: gateway-service
+  replicas: {{ .Values.gatewayService.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: gateway-service
+    spec:
+      containers:
+        - name: gateway-service
+          image: {{ .Values.gatewayService.image.name }}
+          imagePullPolicy: {{ .Values.gatewayService.image.pullPolicy }}
+          ports:
+            - containerPort: {{ .Values.gatewayService.port.container }}
+          env:
+            - name: SPRING_PROFILES_ACTIVE
+              value: {{ .Values.gatewayService.app.profile }}
+            - name: CONFIGURATION_SERVICE_HOST
+              value: {{ .Values.configurationService.app.name }}
+            - name: TRACING_SERVICE_HOST
+              value: {{ .Values.tracingServiceHost }}
+            - name: SERVER_PORT
+              value: {{ .Values.gatewayService.port.container | quote }} # containerPort is integer, but env expects string
+            - name: APPLICATION_NAME
+              value: {{ .Values.gatewayService.app.name }}
