@@ -29,7 +29,10 @@ cat `127.0.0.1 discovery-service.com
 127.0.0.1 db.com
 127.0.0.1 db-1.com
 127.0.0.1 db-2.com
-127.0.0.1 db-3.com` >> /etc/hosts
+127.0.0.1 db-3.com
+
+127.0.0.1 message-broker-service
+127.0.0.1 zookeeper-service` >> /etc/hosts
 
 ## Prepare environment to run
 `docker-compose up`
