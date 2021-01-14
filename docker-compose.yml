@@ -9,13 +9,13 @@ x-discovery-app-name: &DISCOVERY_APP_NAME
   fdobrotv/discovery_service:0.4.0
 
 x-config-app-name: &CONFIG_APP_NAME
-  fdobrotv/configuration_service:0.3.1
+  fdobrotv/configuration_service:0.4.3
 
 x-gateway-app-name: &GATEWAY_APP_NAME
   fdobrotv/gateway_service:0.5.1
 
 x-client-app-name: &CLIENT_APP_NAME
-  fdobrotv/client_service:0.4.2
+  fdobrotv/client_service:0.5.6
 
 x-eureka-zone: &EUREKA_ZONE
   http://discovery-service-1.com:8761/eureka/,http://discovery-service-2.com:8762/eureka/,http://discovery-service-3.com:8763/eureka/
