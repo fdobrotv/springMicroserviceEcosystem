@@ -51,7 +51,7 @@ cat `127.0.0.1 discovery-service.com
 ## Deploy all services using k8s and helm
 1) run `kubectl apply -f ./fabric8-rbac.yaml` 
 2) start database and vault services using docker `docker-compose up -d db-1.com vault-config`
-3) start tracing service: run `kubectl apply -f ./tracing-service-service.yaml` and `kubectl apply -f ./tracing-service-deployment.yaml`
+3) start tracing service: run `kubectl apply -f ./tracing-service-service.yaml -f ./tracing-service-deployment.yaml`
 4) start all services with single helm chart: go inside main-service chart directory and run `helm install main-service .`
 5.0) OR start all services separately:
 5.1) start configuration service: go inside configuration-service chart directory and run `helm install configuration-service .`

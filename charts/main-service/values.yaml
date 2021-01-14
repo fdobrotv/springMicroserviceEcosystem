@@ -7,7 +7,7 @@ clientService:
     name: client-service
     profile: local
   image:
-    name: fdobrotv/client_service:0.4.5
+    name: fdobrotv/client_service:0.5.7
     pullPolicy: Never
   replicaCount: 3
   port:
@@ -29,10 +29,10 @@ gatewayService:
 configurationService:
   app:
     name: configuration-service
-    profile: local,vault,git
+    profile: local,git,vault
     configurationSourceGit: https://github.com/fdobrotv/cloud_config.git
   image:
-    name: fdobrotv/configuration_service:0.3.3
+    name: fdobrotv/configuration_service:0.4.4
     pullPolicy: Never
   replicaCount: 1
   port:

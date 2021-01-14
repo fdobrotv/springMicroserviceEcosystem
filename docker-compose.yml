@@ -126,6 +126,7 @@ services:
       HOST_NAME: configuration-service-1.com
       EUREKA_DEFAULT_ZONE: *EUREKA_ZONE
       CONFIGURATION_SOURCE_GIT: https://github.com/fdobrotv/cloud_config.git
+      SPRING_PROFILES_ACTIVE: git,vault
     networks:
       - backend
     ports:
