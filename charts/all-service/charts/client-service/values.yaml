@@ -1,0 +1,14 @@
+tracingServiceHost: tracing-service
+dbHost: 192.168.49.1 # host gateway (you can reach host machine inside minikube by using this IP address)
+configurationServiceHost: configuration-service
+
+app:
+  name: client-service
+  profile: local
+image:
+  name: fdobrotv/client_service:0.5.7
+  pullPolicy: Never
+replicaCount: 2
+port:
+  container: 22222
+  service: 22222

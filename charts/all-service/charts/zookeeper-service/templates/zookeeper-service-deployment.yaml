@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: zookeeper-service
-  replicas: 1
+  replicas: {{ .Values.replicas }}
   template:
     metadata:
       labels:
@@ -16,5 +16,5 @@ spec:
         - name: zookeeper-service
           image: wurstmeister/zookeeper
           ports:
-            - containerPort: 2181
+            - containerPort: {{ .Values.port }}
               protocol: TCP
