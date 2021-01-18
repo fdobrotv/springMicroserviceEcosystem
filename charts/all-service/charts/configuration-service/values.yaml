@@ -6,7 +6,7 @@ app:
   profile: local,git,vault
   configurationSourceGit: https://github.com/fdobrotv/cloud_config.git
 image:
-  name: fdobrotv/configuration_service:0.4.4
+  name: fdobrotv/configuration_service:0.4.9
   pullPolicy: Never
 replicaCount: 1
 port:

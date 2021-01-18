@@ -25,3 +25,7 @@ spec:
               value: "9092"
             - name: KAFKA_ZOOKEEPER_CONNECT
               value: "zookeeper-service:2181"
+      hostAliases:
+      - ip: "127.0.0.1"
+        hostnames:
+        - "message-broker-service"
