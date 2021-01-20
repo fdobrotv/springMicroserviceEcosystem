@@ -5,8 +5,8 @@ app:
   name: gateway-service
   profile: local
 image:
-  name: fdobrotv/gateway_service:0.5.3
-  pullPolicy: Never
+  name: fdobrotv/gateway_service:0.5.5
+  pullPolicy: IfNotPresent
 replicaCount: 1
 port:
   container: 8080

@@ -6,9 +6,9 @@ app:
   name: client-service
   profile: local
 image:
-  name: fdobrotv/client_service:0.5.7
-  pullPolicy: Never
+  name: fdobrotv/client_service:0.5.8
+  pullPolicy: IfNotPresent
 replicaCount: 2
 port:
-  container: 22222
-  service: 22222
+  container: 11111
+  service: 11111

@@ -7,3 +7,7 @@
 /gradlew
 /gradlew.bat
 /settings.gradle
+/charts/all-service/charts/cockroachdb-5.0.3.tgz
+/charts/all-service/charts/jaeger-all-in-one-0.1.0.tgz
+/charts/all-service/charts/kafka-12.6.0.tgz
+/charts/all-service/requirements.lock

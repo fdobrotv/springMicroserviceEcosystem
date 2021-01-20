@@ -7,7 +7,7 @@ app:
   configurationSourceGit: https://github.com/fdobrotv/cloud_config.git
 image:
   name: fdobrotv/configuration_service:0.4.9
-  pullPolicy: Never
+  pullPolicy: IfNotPresent
 replicaCount: 1
 port:
   container: 8888

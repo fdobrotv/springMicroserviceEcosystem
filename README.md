@@ -43,9 +43,18 @@ cat `127.0.0.1 discovery-service.com
 ## Helm repositories
 `helm repo add bitnami https://charts.bitnami.com/bitnami`
 `helm repo add jaeger-all-in-one https://raw.githubusercontent.com/hansehe/jaeger-all-in-one/master/helm/charts`
-`helm repo add cockroachdb https://charts.cockroachdb.com/`
+`helm repo add cockroachdb https://charts.cockroachdb.com`
 ### Pull helm repositories
-` helm dependency update charts/all-service/`
+`helm dependency update charts/all-service`
+
+## Minikube dashboard
+`minikube dashboard`
+
+## K8s run
+`helm install all-service charts/all-service`
+
+## K8s chart development
+`helm upgrade all-service charts/all-service`
 
 ## Kubernetes installation with 1 node (minikube)
 1) install hypervisor (virtualbox or hyperkit)
@@ -59,7 +68,8 @@ cat `127.0.0.1 discovery-service.com
 
 ## Deploy all services using k8s and helm
 1) run `kubectl apply -f ./fabric8-rbac.yaml` 
-2) start database and vault services using docker `docker-compose up -d db-1.com vault-config`
+
+[comment]: <> (2&#41; start database and vault services using docker `docker-compose up -d db-1.com vault-config`)
 3) start tracing service: run `kubectl apply -f ./tracing-service-service.yaml -f ./tracing-service-deployment.yaml`
 4) start all services with single helm chart: go inside main-service chart directory and run `helm install main-service .`
 5.0) OR start all services separately:
