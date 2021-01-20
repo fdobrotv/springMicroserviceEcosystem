@@ -9,7 +9,7 @@ x-discovery-app-name: &DISCOVERY_APP_NAME
   fdobrotv/discovery_service:0.4.0
 
 x-config-app-name: &CONFIG_APP_NAME
-  fdobrotv/configuration_service:0.4.3
+  fdobrotv/configuration_service:0.4.4
 
 x-gateway-app-name: &GATEWAY_APP_NAME
   fdobrotv/gateway_service:0.5.1
@@ -23,7 +23,70 @@ x-eureka-zone: &EUREKA_ZONE
 x-vault-token: &VAULT_TOKEN
   ffa6f30b-041f-445a-9beb-3b42927fab1a
 
+volumes:
+  hydra-sqlite:
+
 services:
+  uaa:
+    image: uaa-tomcat
+    container_name: uaa
+    expose:
+      - "8090"
+    ports:
+      - "8090:8090"
+
+  hydra:
+    image: oryd/hydra:v1.9.0-sqlite
+    ports:
+      - "4444:4444" # Public port
+      - "4445:4445" # Admin port
+      - "5555:5555" # Port for hydra token user
+    command:
+      serve -c /etc/config/hydra/hydra.yml all --dangerous-force-http
+    volumes:
+      - type: volume
+        source: hydra-sqlite
+        target: /var/lib/sqlite
+        read_only: false
+      - type: bind
+        source: ./contrib/quickstart/5-min
+        target: /etc/config/hydra
+    environment:
+      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+    restart: unless-stopped
+    depends_on:
+      - hydra-migrate
+    networks:
+      - backend
+
+  hydra-migrate:
+    image: oryd/hydra:v1.9.0-sqlite
+    environment:
+      - DSN=sqlite:///var/lib/sqlite/db.sqlite?_fk=true
+    command:
+      migrate -c /etc/config/hydra/hydra.yml sql -e --yes
+    volumes:
+      - type: volume
+        source: hydra-sqlite
+        target: /var/lib/sqlite
+        read_only: false
+      - type: bind
+        source: ./contrib/quickstart/5-min
+        target: /etc/config/hydra
+    restart: on-failure
+    networks:
+      - backend
+
+  consent:
+    environment:
+      - HYDRA_ADMIN_URL=http://hydra:4445
+    image: oryd/hydra-login-consent-node:v1.9.0
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+    networks:
+      - backend
+
   zookeeper-service:
     image: wurstmeister/zookeeper
     container_name: zookeeper-service
@@ -32,6 +95,9 @@ services:
       - "2181:2181"
     networks:
       - backend
+    volumes:
+      - ./data/zookeeper-service/data:/var/lib/zookeeper/data
+      - ./data/zookeeper-service/log:/var/lib/zookeeper/log
     mem_limit: 256mb
 
   message-broker-service:
@@ -47,7 +113,7 @@ services:
       KAFKA_ADVERTISED_PORT: "9092"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper-service:2181
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data/message-broker-service/data:/var/lib/kafka/data
     networks:
       - backend
     mem_limit: 1gb
