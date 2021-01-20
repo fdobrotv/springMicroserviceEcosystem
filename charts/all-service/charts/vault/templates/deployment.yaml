@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vault
+spec:
+  selector:
+    matchLabels:
+      app: vault
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: vault
+    spec:
+      containers:
+        - name: vault
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - "/bin/sh"
+                  - "-c"
+                  - "sleep 10 ; vault kv put secret/client-service db.password=qwerty"
+          image: {{ .Values.image.name }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: ["server", "-dev"]
+          securityContext:
+            capabilities:
+              add:
+                - IPC_LOCK
+          ports:
+            - containerPort: {{ .Values.port.container }}
+          env:
+            - name: VAULT_TOKEN
+              value: {{ .Values.app.rootToken }}
+            - name: VAULT_DEV_ROOT_TOKEN_ID
+              value: {{ .Values.app.rootToken }}
+            - name: VAULT_API_ADDR
+              value: {{ .Values.app.address }}
+            - name: VAULT_ADDR
+              value: {{ .Values.app.address }}

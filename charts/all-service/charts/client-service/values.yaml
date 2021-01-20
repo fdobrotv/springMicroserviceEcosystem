@@ -1,0 +1,14 @@
+tracingServiceHost: tracing-service
+dbHost: cockroachdb
+configurationServiceHost: configuration-service
+
+app:
+  name: client-service
+  profile: local
+image:
+  name: fdobrotv/client_service:0.5.7
+  pullPolicy: Never
+replicaCount: 2
+port:
+  container: 22222
+  service: 22222

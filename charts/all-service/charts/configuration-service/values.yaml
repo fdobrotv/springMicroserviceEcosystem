@@ -1,0 +1,14 @@
+tracingServiceHost: tracing-service
+vaultHost: vault
+
+app:
+  name: configuration-service
+  profile: local,git,vault
+  configurationSourceGit: https://github.com/fdobrotv/cloud_config.git
+image:
+  name: fdobrotv/configuration_service:0.4.9
+  pullPolicy: Never
+replicaCount: 1
+port:
+  container: 8888
+  service: 8888

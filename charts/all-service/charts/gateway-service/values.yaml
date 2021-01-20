@@ -1,0 +1,13 @@
+tracingServiceHost: tracing-service
+configurationServiceHost: configuration-service
+
+app:
+  name: gateway-service
+  profile: local
+image:
+  name: fdobrotv/gateway_service:0.5.3
+  pullPolicy: Never
+replicaCount: 1
+port:
+  container: 8080
+  service: 8080
