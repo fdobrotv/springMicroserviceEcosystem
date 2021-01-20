@@ -1,0 +1,10 @@
+dependencies:
+  - name: kafka                                       #chart name
+    version: "12.6.0"                                 #chart version, not application version
+    repository: "https://charts.bitnami.com/bitnami"  #artifacthub.io
+  - name: jaeger-all-in-one
+    version: "0.1.0"
+    repository: "https://raw.githubusercontent.com/hansehe/jaeger-all-in-one/master/helm/charts"
+  - name: cockroachdb
+    version: "5.0.3"
+    repository: "https://charts.cockroachdb.com/"

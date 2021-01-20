@@ -1,5 +1,5 @@
 tracingServiceHost: tracing-service
-vaultHost: 192.168.49.1 # host gateway (you can reach host machine inside minikube by using this IP address)
+vaultHost: vault
 
 app:
   name: configuration-service

@@ -40,11 +40,20 @@ cat `127.0.0.1 discovery-service.com
 ### Maybe you also need to initialize the cluster
 `docker exec -it db-1.com ./cockroach init --insecure`
 
+## Helm repositories
+`helm repo add bitnami https://charts.bitnami.com/bitnami`
+`helm repo add jaeger-all-in-one https://raw.githubusercontent.com/hansehe/jaeger-all-in-one/master/helm/charts`
+`helm repo add cockroachdb https://charts.cockroachdb.com/`
+### Pull helm repositories
+` helm dependency update charts/all-service/`
+
 ## Kubernetes installation with 1 node (minikube)
 1) install hypervisor (virtualbox or hyperkit)
 2) install minikube
 3) install kubectl
 4) `minikube config set driver docker` or hyperkit or virtualbox
+4.1 optional) `minikube config set memory 8192`
+4.2 optional) `minikube config set cpus 4`
 5) `minikube start --container-runtime=cri-o` for local development better use docker instead of cri-o because you can do `eval $(minikube docker-env)`
 6) install helm
 

@@ -1,5 +1,5 @@
 tracingServiceHost: tracing-service
-dbHost: 192.168.49.1 # host gateway (you can reach host machine inside minikube by using this IP address)
+dbHost: cockroach
 configurationServiceHost: configuration-service
 
 app:

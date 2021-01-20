@@ -1,0 +1,11 @@
+app:
+  name: vault
+  rootToken: ffa6f30b-041f-445a-9beb-3b42927fab1a
+  address: http://127.0.0.1:8200
+image:
+  name: vault
+  pullPolicy: IfNotPresent
+replicaCount: 1
+port:
+  container: 8200
+  service: 8200

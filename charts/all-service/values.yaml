@@ -1,0 +1,12 @@
+kafka:
+  heapOpts: -Xmx256m -Xms256m
+  fullnameOverride: message-broker-service
+jaeger-all-in-one:
+  fullnameOverride: tracing-service
+cockroachdb:
+  storage:
+    persistentVolume:
+      size: 10Gi
+  conf:
+    http-port: 10000
+  fullnameOverride: cockroach
