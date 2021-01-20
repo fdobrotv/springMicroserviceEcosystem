@@ -1,5 +1,5 @@
 tracingServiceHost: tracing-service
-dbHost: cockroach
+dbHost: cockroachdb
 configurationServiceHost: configuration-service
 
 app:
