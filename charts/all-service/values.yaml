@@ -9,4 +9,4 @@ cockroachdb:
       size: 10Gi
   conf:
     http-port: 10000
-  fullnameOverride: cockroach
+  fullnameOverride: cockroachdb
