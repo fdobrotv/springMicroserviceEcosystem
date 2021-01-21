@@ -31,6 +31,8 @@ cat `127.0.0.1 discovery-service.com
 127.0.0.1 db-2.com
 127.0.0.1 db-3.com
 
+127.0.0.1 vault-1.com
+
 127.0.0.1 message-broker-service
 127.0.0.1 zookeeper-service` >> /etc/hosts
 
@@ -67,7 +69,7 @@ cat `127.0.0.1 discovery-service.com
 6) install helm
 
 ## Deploy all services using k8s and helm
-1) run `kubectl apply -f ./fabric8-rbac.yaml` 
+1) run `kubectl apply -f ./fabric8-rbac.yaml`
 
 [comment]: <> (2&#41; start database and vault services using docker `docker-compose up -d db-1.com vault-config`)
 3) start tracing service: run `kubectl apply -f ./tracing-service-service.yaml -f ./tracing-service-deployment.yaml`

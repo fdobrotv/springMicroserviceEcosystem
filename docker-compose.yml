@@ -125,7 +125,9 @@ services:
       SERVER_PORT: 8888
       HOST_NAME: configuration-service-1.com
       EUREKA_DEFAULT_ZONE: *EUREKA_ZONE
-      CONFIGURATION_SOURCE_GIT: https://github.com/fdobrotv/cloud_config.git
+      GIT_SERVICE_ACCOUNT_LOGIN: ${GIT_SERVICE_ACCOUNT_LOGIN}
+      GIT_SERVICE_ACCOUNT_PASSWORD: ${GIT_SERVICE_ACCOUNT_PASSWORD}
+      CONFIGURATION_SOURCE_GIT: https://gitlab.btsd.kz/SAUDA/passport/cloudconfig.git
       SPRING_PROFILES_ACTIVE: git,vault
     networks:
       - backend
