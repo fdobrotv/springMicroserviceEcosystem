@@ -1,4 +1,4 @@
-# Getting Started (docker-compose application run)
+# Getting Started (run application with docker-compose)
 Spring Cloud ecosystem demo bootstrap project
 
 ## Requirements
@@ -44,7 +44,7 @@ cat `127.0.0.1 discovery-service.com
 Exclude some service from start
 `docker-compose up --scale configuration-service-1.com=0`
 
-#Helm (Kubernetes application run)
+#Helm (run application inside kubernetes)
 ## Helm repositories
 `helm repo add bitnami https://charts.bitnami.com/bitnami`
 `helm repo add jaeger-all-in-one https://raw.githubusercontent.com/hansehe/jaeger-all-in-one/master/helm/charts`
